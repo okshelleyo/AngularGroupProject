@@ -10,7 +10,7 @@ import { idText } from 'typescript';
 export class FavoritesApiService {
 
   apiUri: string = "https://localhost:44343/api/studybuddy";
-
+  favoriteList: Favorites[] = [];
 
   constructor(private http: HttpClient) {
 
@@ -21,8 +21,8 @@ export class FavoritesApiService {
     return this.http.get<Favorites[]>(`${this.apiUri}/getuser/${user}`);
   }
 
-  addToFavorites (favorite: Favorites, user: string, id: number) {
-    return this.http.post<Favorites>(`${this.apiUri}/addfavorite/${user}/${id}`, {"qId":favorite.qId, "user":favorite.userName});
+  addToFavorites (user: string, id: number) {
+    return this.http.post<Favorites>(`${this.apiUri}/addfavorite/${user}/${id}`, {"qId":id, "userName":user});
   }
 
   deleteFavorite (id: number, user: string) {

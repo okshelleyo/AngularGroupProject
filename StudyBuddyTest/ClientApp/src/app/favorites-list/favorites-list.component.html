@@ -1,2 +1,6 @@
-<p>favorites-list works!</p>
+<form class="form-favorites" #FavoritesForm="ngForm" (ngSubmit)="onSubmit(FavoritesForm)">
 
+  <input class="input-user" name="userName" ngModel>
+
+  <button class="btn-add">Add to Favorites</button>
+</form>

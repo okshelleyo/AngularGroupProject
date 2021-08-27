@@ -1,0 +1,33 @@
+--CREATE DATABASE StudyDB
+--USE StudyDB
+--CREATE TABLE QandA(
+--[QId] int NOT NULL Primary Key identity (1,1),
+--[Question] NVARCHAR(100) NOT NULL,
+--[Answer] NVARCHAR(100) NOT NULL
+--);
+--CREATE TABLE Users(
+--[UserName] NVARCHAR(30) NOT NULL Primary Key,
+--[Email] NVARCHAR(30)
+--)
+--CREATE TABLE Favorites(
+--[QID] int NOT NULL foreign key references QandA(QId),
+--[UserName] NVARCHAR(30) NOT NULL Foreign Key references Users(UserName),
+--Primary Key (QId, UserName)
+--);
+--INSERT INTO QandA (Question, Answer)
+--VALUES
+--('Question1','Answer1'),
+--('Question2','Answer2'),
+--('Question3','Answer3'),
+--('Question4','Answer4'),
+--('Question5','Answer5')
+--INSERT INTO Users([UserName])
+--Values
+--('User1'),
+--('User2')
+--INSERT INTO Favorites (QID, UserName)
+--VALUES
+--('1', 'User1'),
+--('2', 'User1'),
+--('2', 'User2'),
+--('3', 'User2')

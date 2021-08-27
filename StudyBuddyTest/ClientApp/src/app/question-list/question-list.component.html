@@ -1,6 +1,7 @@
 <ol class="questionList">
   <li *ngFor="let s of questionList">
     <p>{{ s.question }}</p> <button class="btn-answer" (click)="onSelect(s)">See Answer</button>
+    <button class="btn-answer" (click)="onFavoritesAdd(s.qId)">Add Favorite</button>
     <p *ngIf="s === selectedQ">{{ selectedQ.answer }}</p>
   </li>
 </ol>
