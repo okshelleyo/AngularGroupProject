@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { Questions } from '../models/Questions';
 
 @Injectable({
@@ -8,12 +8,13 @@ import { Questions } from '../models/Questions';
 export class QuestionApiService {
 
   apiUri: string = "https://localhost:44343/api/studybuddy";
-
+  newDataAdded = new EventEmitter<string>();
 
   constructor(private http: HttpClient) {
 
     console.log(this.apiUri)
   }
+  
 
   getAllQuestions() {
    return this.http.get<Questions[]>(`${this.apiUri}/getallquestions`);

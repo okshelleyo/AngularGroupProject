@@ -1,6 +1,14 @@
-<form class="form-favorites" #FavoritesForm="ngForm" (ngSubmit)="onSubmit(FavoritesForm)">
+<!--<form class="form-favorites" #FavoritesForm="ngForm" (ngSubmit)="onSubmit(FavoritesForm)">
 
   <input class="input-user" name="userName" ngModel>
 
-  <button class="btn-add">Add to Favorites</button>
-</form>
+  <button class="btn-add">Get users Favorites</button>
+</form>-->
+
+<ol class="favoriteList">
+  <li *ngFor="let s of favoriteList">
+    <p>{{ s.question }}</p> <button class="btn-answer" (click)="onSelect(s)">See Answer</button>
+    <button class="btn-answer" (click)="deleteFavorite(s.qid)">Delete Favorite</button>
+    <p *ngIf="s === selectedQ">{{ selectedQ.answer }}</p>
+  </li>
+</ol>

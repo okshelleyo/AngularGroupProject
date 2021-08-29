@@ -34,12 +34,36 @@ namespace StudyBuddyTest.Controllers
         //    }
         //}
 
-        [HttpGet("getuser/{UserName}")]
-        public async Task<ActionResult<List<QandA>>> GetFavorites(string UserName)
+
+        //[HttpGet("getuser/{UserName}")]
+        //public async Task<ActionResult<List<QandA>>> GetFavorites(string UserName)
+        //{
+        //    //attempting to join in C#
+        //    //var x = await (from u in _context.Favorites join i in _context.QandAs on u.Qid equals i.Qid where u.UserName.Contains(UserName) select new {Qid = i.Qid, UserName = u.UserName, qs = i.Question } ).ToListAsync();
+        //    var favorites = await _context.Favorites.Where(x => x.UserName == UserName).ToListAsync();
+        //    var userQA = new List<QandA>();
+        //    foreach (var a in favorites)
+        //    {
+        //        userQA.Add(await _context.QandAs.Where(x => x.Qid == a.Qid).FirstAsync());
+
+        //    }
+
+        //    if (userQA.Count > 0)
+        //    {
+        //        return userQA;
+        //    }
+        //    else
+        //    {
+        //        return NotFound();
+        //    }
+        //}
+
+        [HttpGet("getfavorites")]
+        public async Task<ActionResult<List<QandA>>> GetFavorites()
         {
             //attempting to join in C#
             //var x = await (from u in _context.Favorites join i in _context.QandAs on u.Qid equals i.Qid where u.UserName.Contains(UserName) select new {Qid = i.Qid, UserName = u.UserName, qs = i.Question } ).ToListAsync();
-            var favorites = await _context.Favorites.Where(x => x.UserName == UserName).ToListAsync();
+            var favorites = await _context.Favorites.ToListAsync();
             var userQA = new List<QandA>();
             foreach (var a in favorites)
             {
@@ -58,31 +82,76 @@ namespace StudyBuddyTest.Controllers
         }
 
         #region Create
-        [HttpPost("addfavorite/{username}/{qid}")]
-        public async Task<ActionResult<Favorite>> AddToFavorite(string userName, int qid)
+        //[HttpPost("addfavorite/{username}/{qid}")]
+        //public async Task<ActionResult<Favorite>> AddToFavorite(string userName, int qid)
+        //{
+        //    Favorite fav = new Favorite();
+        //    fav.Qid = qid;
+        //    fav.UserName = userName;
+        //    var favQs = await _context.Favorites.Where(x => x.UserName == userName).ToListAsync();
+        //    Favorite question = new Favorite();
+        //    foreach (var q in favQs)
+        //    {
+        //        if (q.Qid == qid)
+        //        {
+        //            question = q;
+        //        }
+        //        else
+        //        {
+        //            question = null;
+        //        }
+        //    }
+        //    //var question = await _context.Favorites.FindAsync(favQ);
+        //    if (question == null)
+        //    {
+        //        _context.Favorites.Add(fav);
+        //        await _context.SaveChangesAsync();
+        //        return CreatedAtAction(nameof(GetFavorites), new { Qid = fav.Qid }, fav);
+        //    }
+        //    else
+        //    {
+        //        return NoContent();
+        //    }
+
+        //}
+
+
+        [HttpPost("addfavorite/{qid}")]
+        public async Task<ActionResult<Favorite>> AddToFavorite(int qid)
         {
             Favorite fav = new Favorite();
             fav.Qid = qid;
-            fav.UserName = userName;
-            var favQs = await _context.Favorites.Where(x => x.UserName == userName).ToListAsync();
+            fav.UserName = "user1";
+            var favQs = await _context.Favorites.ToListAsync();
             Favorite question = new Favorite();
-            foreach (var q in favQs)
+            if (favQs.Count > 0)
             {
-                if (q.Qid == qid)
+
+
+                foreach (var q in favQs)
                 {
-                    question = q;
+                    if (q.Qid == qid)
+                    {
+                        question = q;
+                        break;
+                    }
+                    else
+                    {
+                        question = null;
+                    }
                 }
-                else
-                {
-                    question = null;
-                }
+
+            }
+            else
+            {
+                question = null;
             }
             //var question = await _context.Favorites.FindAsync(favQ);
             if (question == null)
             {
                 _context.Favorites.Add(fav);
                 await _context.SaveChangesAsync();
-                return CreatedAtAction(nameof(GetFavorites), new { Qid = fav.Qid }, fav);
+                return CreatedAtAction(nameof(GetFavorites), new { Qid = fav.Qid, UserName = fav.UserName }, fav);
             }
             else
             {

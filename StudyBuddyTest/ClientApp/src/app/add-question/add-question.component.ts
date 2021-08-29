@@ -28,9 +28,12 @@ export class AddQuestionComponent implements OnInit {
     this.questionAPI.addQuestion(qa).subscribe(
       result => {
         console.log(result);
+        this.questionAPI.newDataAdded.emit('new data added successfully');
       },
       error => console.log(error)
     );
+    
+
   }
 
 }

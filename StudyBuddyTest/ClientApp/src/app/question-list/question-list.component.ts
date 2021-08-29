@@ -4,6 +4,10 @@ import { QuestionApiService } from '../services/question-api.service';
 import { FavoritesApiService } from '../services/favorites-api.service';
 import { Favorites } from '../models/Favorites';
 import { User } from '../models/User';
+import { NgForm } from '@angular/forms';
+import { interval, Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { error } from 'protractor';
 
 
 @Component({
@@ -18,13 +22,25 @@ export class QuestionListComponent implements OnInit {
 
   // showAnswer = false;
   selectedQ: Questions = { qId: 0, question: '', answer: '' };
-  userDefault: string = "user1"
+  userDefault: string = "userDefault";
+  private updateSubscription: Subscription;
 
-  constructor(private questionService: QuestionApiService, private favoritesService: FavoritesApiService) { }
+  constructor(private questionService: QuestionApiService, private favoritesService: FavoritesApiService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.getQuestionsList();
+    this.questionService.newDataAdded.subscribe(
+      (st: string) => {
+        this.getQuestionsList();
+      }
+    );
+    //this.updateSubscription = interval(5000).subscribe(
+    //  (val) => {
+    //    this.getQuestionsList();
+    //  },
+    //  )
   }
+
 
   getQuestionsList(){
     this.questionService.getAllQuestions().subscribe(
@@ -41,17 +57,43 @@ export class QuestionListComponent implements OnInit {
       this.selectedQ = question;
     }
 
-  onFavoritesAdd(qId:number, userName: string) {
-    this.favoritesService.addToFavorites(userName, qId).subscribe(
+  //onFavoritesAdd(qId:number) {
+  //  this.favoritesService.addToFavorites(qId).subscribe(
+  //    result => {
+  //      this.favoritesList = result;
+  //      let f: Favorites = { userName: userDefault, qId: qId };
+  //      this.favoritesService.favoriteList.push(f);
+
+  //    },
+  //    error => console.log(error)
+  //  );
+
+  //}
+
+    onFavoritesAdd(qid:number) {
+    this.favoritesService.addToFavorites(qid).subscribe(
       result => {
-        this.favoritesList = result;
-        let f: Favorites = { userName: userName, qId: qId };
-        this.favoritesService.favoriteList.push(f);
+        //this.favoritesList = result;
+        //let f: Favorites = {
+        //  userName: this.userDefault, qId: qId
+        //};
+        //this.favoritesService.favoriteList.push(f);
+        console.log(this.favoritesList);
 
       },
       error => console.log(error)
     );
 
+  }
+
+  deleteQuestion(qid: number) {
+    this.questionService.deleteQuestion(qid).subscribe(
+      result => {
+        console.log(qid);
+        this.getQuestionsList();
+      },
+      error => console.log(error)
+    );
   }
 
 }

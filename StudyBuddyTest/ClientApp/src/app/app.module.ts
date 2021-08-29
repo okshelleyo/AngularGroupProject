@@ -26,7 +26,7 @@ import { FavoritesListComponent } from './favorites-list/favorites-list.componen
     FormsModule,
     RouterModule.forRoot([
       { path: 'questionList', component: QuestionListComponent},
-      { path: 'favoritesList', component: FavoritesListComponent},
+      { path: 'favoritesList', component: FavoritesListComponent },
       { path: '', component: HomeComponent, pathMatch: 'full' },
     ])
   ],

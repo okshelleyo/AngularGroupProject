@@ -9,7 +9,7 @@ import { idText } from 'typescript';
 })
 export class FavoritesApiService {
 
-  apiUri: string = "https://localhost:44343/api/studybuddy";
+  apiUri: string = "https://localhost:44343/api/favorite";
   favoriteList: Favorites[] = [];
 
   constructor(private http: HttpClient) {
@@ -17,16 +17,24 @@ export class FavoritesApiService {
     console.log(this.apiUri)
   }
 
-  getFavoritesByUser (user: string) {
-    return this.http.get<Favorites[]>(`${this.apiUri}/getuser/${user}`);
+  //getFavoritesByUser (user: string) {
+  //  return this.http.get<Favorites[]>(`${this.apiUri}/getuser/${user}`);
+  //}
+
+  getAllFavorites() {
+    return this.http.get<Favorites[]>(`${this.apiUri}/getfavorites`);
   }
 
-  addToFavorites (user: string, id: number) {
-    return this.http.post<Favorites>(`${this.apiUri}/addfavorite/${user}/${id}`, {"qId":id, "userName":user});
+  //addToFavorites (user: string, id: number) {
+  //  return this.http.post<Favorites>(`${this.apiUri}/addfavorite/${user}/${id}`, {"qId":id, "userName":user});
+  //}
+
+    addToFavorites (qid: number) {
+      return this.http.post<Favorites>(`${this.apiUri}/addfavorite/${qid}`, { "qid": qid });
   }
 
-  deleteFavorite (id: number, user: string) {
-    return this.http.delete(`${this.apiUri}/deletequestion/${user}/${id}`);
+  deleteFavorite (qid: number, user: string) {
+    return this.http.delete(`${this.apiUri}/deletequestion/${user}/${qid}`);
   }
 
 }
